@@ -1,4 +1,56 @@
-<div id="quote-container">
-    <p id="quote-text"></p>
-    <p id="quote-author"></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Motivational Quote</title>
+    <style>
+        #quote-container {
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+            margin: 20px 0;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #quote-text {
+            font-size: 18px;
+            font-style: italic;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #quote-author {
+            font-weight: bold;
+            text-align: right;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="quote-container">
+        <p id="quote-text">Fetching quote...</p>
+        <p id="quote-author"></p>
+    </div>
+
+    <script>
+        function fetchQuote() {
+            fetch('https://randomwordgenerator.com/json/inspirational-quote.json')
+                .then(response => response.json())
+                .then(data => {
+                    const randomIndex = Math.floor(Math.random() * data.data.length);
+                    const quote = data.data[randomIndex];
+                    document.getElementById('quote-text').textContent = quote.quote;
+                    document.getElementById('quote-author').textContent = `- ${quote.author}`;
+                })
+                .catch(error => console.error('Error fetching quote:', error));
+        }
+
+        // Fetch a new quote on page load and every 24 hours
+        fetchQuote();
+        setInterval(fetchQuote, 24 * 60 * 60 * 1000);
+    </script>
+</body>
+</html>
