@@ -48,9 +48,8 @@
                 .catch(error => console.error('Error fetching quote:', error));
         }
 
-        // Fetch a new quote on page load and every 24 hours
+        // Fetch a new quote on page load
         fetchQuote();
-        setInterval(fetchQuote, 24 * 60 * 60 * 1000);
     </script>
 </body>
 </html>
