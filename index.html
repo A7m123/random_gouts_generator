@@ -22,12 +22,6 @@
             margin-bottom: 10px;
             color: #333;
         }
-
-        #quote-author {
-            font-weight: bold;
-            text-align: right;
-            color: #555;
-        }
     </style>
 </head>
 <body>
@@ -37,16 +31,20 @@
 
     <script>
         function fetchQuote() {
-            fetch('https://randomwordgenerator.com/json/inspirational-quote.json')
+            fetch('inspirational-quote.json') // Ensure this is the correct file location.
                 .then(response => response.json())
                 .then(data => {
-                    const randomIndex = Math.floor(Math.random() * data.data.length);
-                    const randomQuote = data.data[randomIndex].inspirational_quote;
+                    const quotes = data.data; // Access the array of quotes.
+                    const randomIndex = Math.floor(Math.random() * quotes.length);
+                    const randomQuote = quotes[randomIndex].inspirational_quote;
 
-                    // Use `innerHTML` to handle the HTML tags like <br /> and <small>
+                    // Use innerHTML to handle the embedded HTML in the quotes.
                     document.getElementById('quote-text').innerHTML = randomQuote;
                 })
-                .catch(error => console.error('Error fetching quote:', error));
+                .catch(error => {
+                    console.error('Error fetching quote:', error);
+                    document.getElementById('quote-text').textContent = 'Error fetching quote. Please try again later.';
+                });
         }
 
         // Fetch a random quote on page load
