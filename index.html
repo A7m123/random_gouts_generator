@@ -31,14 +31,20 @@
 
     <script>
         function fetchQuote() {
-            fetch('inspirational-quote.json') // Ensure this is the correct file location.
-                .then(response => response.json())
+            // Fetch the JSON file from the root directory
+            fetch('inspirational-quote.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const quotes = data.data; // Access the array of quotes.
+                    const quotes = data.data; // Access the array of quotes
                     const randomIndex = Math.floor(Math.random() * quotes.length);
                     const randomQuote = quotes[randomIndex].inspirational_quote;
 
-                    // Use innerHTML to handle the embedded HTML in the quotes.
+                    // Use innerHTML to render quotes with embedded HTML
                     document.getElementById('quote-text').innerHTML = randomQuote;
                 })
                 .catch(error => {
